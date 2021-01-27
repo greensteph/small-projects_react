@@ -8,9 +8,16 @@ function App() {
   const [tours, setTours] = useState([]);
 
   const fetchTours = async () => {
-    const response = await fetch(url);
-    const tours = await response.json();
-    console.log(tours);
+    setLoading(true);
+    try {
+      const response = await fetch(url);
+      const tours = await response.json();
+      setTours(tours);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.log(`Error: ${error}`);
+    }
   };
 
   useEffect(() => {
@@ -27,7 +34,7 @@ function App() {
 
   return (
     <main>
-      <Tours />
+      <Tours tours={tours} />
     </main>
   );
 }
